@@ -1,0 +1,23 @@
+[{
+  "id": "tools",
+  "children": [{
+    "id": "solium_gutter_tools",
+    "caption": "Solium Gutter",
+    "children": [{
+      "caption": "Lint Code",
+      "command": "solium_gutter"
+    }]
+  }]
+}, {
+  "id": "preferences",
+  "children": [{
+    "id": "package-settings",
+    "children": [{
+      "caption": "Solium Gutter",
+      "children": [{
+        "caption": "Lint Code",
+        "command": "solium_gutter"
+      }]
+    }]
+  }]
+}]
