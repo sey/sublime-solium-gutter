@@ -10,7 +10,6 @@ It uses [Solium](https://github.com/duaraghav8/Solium) NodeJS library to lint [S
 WARNING: This is an __alpha__ version. 
 
 - It uses some hardcoded value. The rules for linting are coming from inside the package.
-- It has not been tested on Windows and Linux (but it should work on Linux as is).
 - It has not been tested with Sublime Text 2.
 - It has no preferences/settings.
 - It runs the Solium linter when you save.
