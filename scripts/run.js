@@ -18,6 +18,7 @@ let pluginFolder = path.dirname(__dirname)
 fs.readFile(tempPath, 'utf8', (err, data) => {
   let errorObjects = solium.lint(data, JSON.parse(fs.readFileSync(path.join(pluginFolder, 'scripts', '.soliumrc.json'), 'utf8')))
 
+  console.log('*** Solium results ***')
   errorObjects.forEach((err) => {
     if (verbose) console.log(err)
     console.log([err.line, err.column, err.type, err.message].join(':'))

@@ -1,13 +1,15 @@
 import sublime
 import sublime_plugin
 
-import os, re, codecs, subprocess
+import os, re, codecs, subprocess, sys
 try:
   import commands
 except ImportError:
   pass
 
 PLUGIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
+SETTINGS_FILE = "solium-gutter.sublime-settings"
+OUTPUT_VALID = b"*** Solium results ***"
 
 class SoliumGutterCommand(sublime_plugin.TextCommand):
   def run(self, edit):
@@ -64,14 +66,28 @@ class SoliumGutterCommand(sublime_plugin.TextCommand):
     return temp_file_path
 
   def run_script_on_file(self, temp_file_path):
-    # node_path = PluginUtils.get_node_path()
-    script_path = PLUGIN_FOLDER + "/scripts/run.js"
-    file_path = self.view.file_name()
-    cmd = ['node', script_path, temp_file_path, file_path or "?"]
-    output = SoliumGutterCommand.get_output(cmd)
-    output = output.decode('utf-8');
-    print(output)
-    return output
+    try:
+      node_path = PluginUtils.get_node_path()
+      script_path = PLUGIN_FOLDER + "/scripts/run.js"
+      file_path = self.view.file_name()
+      cmd = [node_path, script_path, temp_file_path, file_path or "?"]
+      output = SoliumGutterCommand.get_output(cmd)
+      if output.find(OUTPUT_VALID) != -1:
+        output = output.decode('utf-8');
+        return output
+      print(output)
+      raise Exception(output)
+    except:
+      # Something bad happened.
+      print("Unexpected error({0}): {1}".format(sys.exc_info()[0], sys.exc_info()[1]))
+
+      # Usually, it's just node.js not being found. Try to alleviate the issue.
+      msg = "Node.js was not found in the default path. Please specify the location."
+      if not sublime.ok_cancel_dialog(msg):
+        msg = "You won't be able to use this plugin without specifying the path to node.js."
+        sublime.error_message(msg)
+      else:
+        PluginUtils.open_sublime_settings(self.view.window())
 
   def add_regions(self, regions):
     package_name = (PLUGIN_FOLDER.split(os.path.sep))[-1]
@@ -144,3 +160,20 @@ class SoliumGutterStore:
   @classmethod
   def reset(self):
     self.errors = []
+
+class PluginUtils:
+  @staticmethod
+  def get_pref(key):
+    return sublime.load_settings(SETTINGS_FILE).get(key)
+
+  @staticmethod
+  def open_sublime_settings(window):
+    window.open_file(PLUGIN_FOLDER + "/" + SETTINGS_FILE)
+
+  @staticmethod
+  def get_node_path():
+    platform = sublime.platform()
+    node = PluginUtils.get_pref("node_path").get(platform)
+    print("Using node.js path on '" + platform + "': " + node)
+    return node
+
