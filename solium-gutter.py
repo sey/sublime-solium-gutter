@@ -154,6 +154,10 @@ class SoliumGutterEventListeners(sublime_plugin.EventListener):
   def on_post_save(view):
     view.run_command("solium_gutter")
 
+class SoliumGutterSetNodePathCommand(sublime_plugin.TextCommand):
+  def run(self, edit):
+    PluginUtils.open_sublime_settings(self.view.window())
+
 class SoliumGutterStore:
   errors = []
 

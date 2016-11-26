@@ -17,6 +17,9 @@
       "children": [{
         "caption": "Lint Code",
         "command": "solium_gutter"
+      },{
+        "caption": "Set `node` Path",
+        "command": "solium_gutter_set_node_path"
       }]
     }]
   }]
