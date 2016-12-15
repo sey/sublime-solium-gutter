@@ -7,13 +7,6 @@
 Solium Gutter is a Sublime Text 3 plugin inspired by [JSHint Gutter](https://github.com/victorporof/Sublime-JSHint).
 It uses [Solium](https://github.com/duaraghav8/Solium) NodeJS library to lint [Solidity](https://github.com/ethereum/solidity) source files.
 
-WARNING: This is an __alpha__ version. 
-
-- It uses some hardcoded value. The rules for linting are coming from inside the package.
-- It has not been tested with Sublime Text 2.
-- It has no preferences/settings.
-- It runs the Solium linter when you save.
-
 ## Installation
 Each OS has a different `Packages` folder required by Sublime Text. Open it via Preferences -> Browse Packages, and copy this repository contents to a new `solium-gutter` folder there.
 
