@@ -72,6 +72,7 @@ class SoliumGutterCommand(sublime_plugin.TextCommand):
       file_path = self.view.file_name()
       cmd = [node_path, script_path, temp_file_path, file_path or "?"]
       output = SoliumGutterCommand.get_output(cmd)
+      print(output)
       if output.find(OUTPUT_VALID) != -1:
         output = output.decode('utf-8');
         return output
