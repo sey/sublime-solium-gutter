@@ -80,13 +80,13 @@ class SoliumGutterCommand(sublime_plugin.TextCommand):
       raise Exception(output)
     except:
       # Something bad happened.
-      print("Unexpected error({0}): {1}".format(sys.exc_info()[0], sys.exc_info()[1]))
+      err_msg = "Unexpected error({0}): {1} try running solium in the console and fixing errors".format(sys.exc_info()[0], sys.exc_info()[1])
+      print(err_msg)
 
       # Usually, it's just node.js not being found. Try to alleviate the issue.
-      msg = "Node.js was not found in the default path. Please specify the location."
+      msg = "Solium Gutter hit an issue if you have not set the node path you should now"
       if not sublime.ok_cancel_dialog(msg):
-        msg = "You won't be able to use this plugin without specifying the path to node.js."
-        sublime.error_message(msg)
+        sublime.error_message(err_msg)
       else:
         PluginUtils.open_sublime_settings(self.view.window())
 
